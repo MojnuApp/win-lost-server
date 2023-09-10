@@ -2,8 +2,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const apiRoutes = require('./routes/api');
 const dayRoutes = require('./routes/dayRoute');
+const authRoutes = require('./routes/authRoutes');
+const alterDayRoutes = require('./routes/altDayRoutes');
+const formDataRoutes = require('./routes/formDataRoutes');
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
@@ -23,12 +25,23 @@ mongoose.connect('mongodb://admin:mojnu13@ac-r7tsoou-shard-00-00.dgjlksi.mongodb
     });
 
 // Define your routes here
-
-app.use('/api', apiRoutes);
 // Use dayRoutes
 app.use('/api/day', dayRoutes);
+app.use('/api/days', dayRoutes);
 
-// ...
+// auth routes
+app.use('/api/auth', authRoutes);
+
+
+// Form Data Routes: POST
+app.use('/api/form-data', formDataRoutes);
+
+// Get Form Data
+app.use(formDataRoutes);
+
+// alternative day route
+app.use('/api/day', alterDayRoutes);
+
 
 
 app.listen(port, () => {
